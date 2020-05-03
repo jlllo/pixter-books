@@ -1,8 +1,8 @@
-import { Button } from "react-native";
-import { createAppContainer } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
-import Details from "../Details";
-import Home from "../Home";
+import { Button } from 'react-native';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import Details from '../Details';
+import Home from '../Home';
 
 const AppNavigation = createStackNavigator({
   Home: {
@@ -11,17 +11,17 @@ const AppNavigation = createStackNavigator({
       header: () => null,
       headerRight: () => (
         <Button
-          onPress={() => alert("This is a button!")}
-          title="Info"
-          color="#fff"
+          onPress={() => alert('This is a button!')}
+          title='Info'
+          color='#fff'
         />
       ),
       headerStyle: {
-        backgroundColor: "#fff",
+        backgroundColor: '#fff',
       },
-      headerTintColor: "#FFDD0D",
+      headerTintColor: '#FFDD0D',
       headerTitleStyle: {
-        fontWeight: "regular",
+        fontWeight: 'regular',
       },
     },
   },
@@ -30,11 +30,11 @@ const AppNavigation = createStackNavigator({
     navigationOptions: {
       header: () => null,
       headerStyle: {
-        backgroundColor: "#FFDD0D",
+        backgroundColor: '#FFDD0D',
       },
-      headerTintColor: "#fff",
+      headerTintColor: '#fff',
       headerTitleStyle: {
-        fontWeight: "regular",
+        fontWeight: 'regular',
       },
     },
   },
