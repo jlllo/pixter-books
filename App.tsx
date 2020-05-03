@@ -1,6 +1,12 @@
-import React from "react";
-import AppRoot from "./app/screens/AppRoot";
+import React from 'react';
+import { Provider } from 'react-redux';
+import AppRoot from './app/screens/AppRoot';
+import store from './app/store';
 
 export default function App() {
-  return <AppRoot />;
+  return (
+    <Provider store={store}>
+      <AppRoot />
+    </Provider>
+  );
 }
