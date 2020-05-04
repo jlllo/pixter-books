@@ -3,11 +3,19 @@ import { BookStoreData } from '../store/ducks/PlacesData/types';
 export const organizeBooks = (items: []) =>
   items.map((item: any) => ({
     title: item.volumeInfo.title,
+    description: item.volumeInfo.description,
     authors: item.volumeInfo.authors,
-    thumbnail: item.volumeInfo.imageLinks.smallThumbnail,
+    thumbnail:
+      typeof item.volumeInfo.imageLinks == 'undefined'
+        ? 'https://books.google.com.br/googlebooks/images/no_cover_thumb.gif'
+        : item.volumeInfo.imageLinks.thumbnail,
     pages: item.volumeInfo.pageCount,
     averageRating: item.volumeInfo.averageRating,
     isFavorite: false,
+    price:
+      typeof item.saleInfo.listPrice == 'undefined'
+        ? 0
+        : item.saleInfo.listPrice.amount,
   }));
 
 export const treatPlaces = (places: []) =>
