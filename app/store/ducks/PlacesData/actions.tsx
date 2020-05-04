@@ -1,9 +1,6 @@
 import { action } from 'typesafe-actions';
 import { BookStoreData, PlacesTypes } from './types';
 
-export const setLoading = (loading: boolean) =>
-  action(PlacesTypes.SET_LOADING, loading);
-
 export const loadRequest = () => action(PlacesTypes.PLACES_REQUEST);
 
 export const loadSuccess = (data: BookStoreData[]) =>

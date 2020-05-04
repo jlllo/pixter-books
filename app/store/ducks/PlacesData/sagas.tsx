@@ -1,12 +1,15 @@
 import * as Location from 'expo-location';
-import { call, put } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 import PlacesAPI, { setAxiosData } from '../../../services/PlacesAPI';
 import { getNotifications, treatPlaces } from '../../../services/Utils';
 import { AppState } from '../types';
 import { loadFailure, loadSuccess, setNotifications } from './actions';
 
-export function* loadPlaces(state: AppState) {
-  const { radius, type } = state.placesData.options;
+const getPlaces = (state: AppState) => state.placesData;
+
+export function* loadPlaces() {
+  const placesData = yield select(getPlaces);
+  const { radius, type } = placesData.options;
 
   try {
     const status = yield call(Location.requestPermissionsAsync);

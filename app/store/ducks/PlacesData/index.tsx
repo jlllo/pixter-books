@@ -14,12 +14,6 @@ const INITIAL_STATE: PlacesDataState = {
 
 const reducer: Reducer<PlacesDataState> = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case PlacesTypes.SET_LOADING:
-      return {
-        ...state,
-        loading: action.payload,
-      };
-
     case PlacesTypes.PLACES_REQUEST:
       return {
         ...state,

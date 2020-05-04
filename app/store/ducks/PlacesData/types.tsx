@@ -1,5 +1,4 @@
 export enum PlacesTypes {
-  SET_LOADING = '$_PIXTER_BOOKS/SET_LOADING',
   PLACES_REQUEST = '$_PIXTER_BOOKS/PLACES_REQUEST',
   PLACES_SUCCESS = '$_PIXTER_BOOKS/PLACES_SUCCESS',
   PLACES_FAILURE = '$_PIXTER_BOOKS/PLACES_FAILURE',
@@ -15,7 +14,7 @@ export interface BookStoreData {
 
 export interface OptionsData {
   radius: number;
-  types: string;
+  type: string;
 }
 
 export interface PlacesDataState {
