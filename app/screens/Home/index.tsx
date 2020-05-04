@@ -1,29 +1,19 @@
 import { StackNavigationProp } from '@react-navigation/stack';
-import React, { useEffect } from 'react';
-import {
-  ActivityIndicator,
-  Dimensions,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { setLoading as loadBooks } from '../../store/ducks/BooksData/actions';
-import { setLoading as loadPlaces } from '../../store/ducks/PlacesData/actions';
-import { AppState } from '../../store/ducks/types';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, SafeAreaView, StatusBar } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { loadRequest as loadPlaces } from '../../store/ducks/PlacesData/actions';
+import { BodyContainer, Button, ButtonText, Text } from './styles';
 
 type RootStackParamList = {
   Home: undefined;
+  Books: undefined;
   Details: undefined;
 };
 
 type HomeScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
-  'Details'
+  'Books'
 >;
 
 interface Props {
@@ -31,70 +21,32 @@ interface Props {
 }
 
 export default function Home({ navigation }: Props) {
-  const loading = useSelector((state: AppState) => state.booksData);
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(loadBooks(true));
-    dispatch(loadPlaces(true));
+    dispatch(loadPlaces());
+
+    setTimeout(() => setLoading(false), 2000);
   }, []);
 
-  const handlePress = () => navigation.navigate('Details');
+  const handlePress = () => navigation.navigate('Books');
 
   return (
     <>
       <StatusBar barStyle='light-content' />
       <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior='automatic'
-          style={styles.scrollView}
-        >
-          {!loading ? (
-            <View style={styles.body}>
-              <ActivityIndicator size='large' color='#000' />
-            </View>
+        <BodyContainer>
+          <Text>Pixter Books</Text>
+          {loading ? (
+            <ActivityIndicator size='large' color='#000' />
           ) : (
-            <View style={styles.body}>
-              <Text style={styles.text}>Pixter Books</Text>
-              <TouchableOpacity style={styles.button} onPress={handlePress}>
-                <Text style={styles.buttonText}>Details</Text>
-              </TouchableOpacity>
-            </View>
+            <Button onPress={handlePress}>
+              <ButtonText>Books</ButtonText>
+            </Button>
           )}
-        </ScrollView>
+        </BodyContainer>
       </SafeAreaView>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: '#FFDD0D',
-    height: '100%',
-  },
-  body: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: Dimensions.get('window').height,
-  },
-  text: {
-    textAlign: 'center',
-    color: '#000',
-    fontFamily: 'Roboto',
-    fontSize: 25,
-  },
-  button: {
-    width: '25%',
-    margin: 20,
-    padding: 7,
-    borderRadius: 4,
-    backgroundColor: '#000',
-  },
-  buttonText: {
-    textAlign: 'center',
-    color: '#fff',
-    fontFamily: 'Roboto',
-    fontSize: 18,
-  },
-});
