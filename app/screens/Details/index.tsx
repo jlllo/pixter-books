@@ -1,57 +1,179 @@
-import React from 'react';
+import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import React, { useLayoutEffect } from 'react';
+import { SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import StarRating from 'react-native-star-rating';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import AppHeader from '../../components/AppHeader';
 import {
-  Dimensions,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import { NavigationParams, NavigationState } from 'react-navigation';
-import { NavigationStackProp } from 'react-navigation-stack';
+  HeaderContainerLeft,
+  Title,
+  TitleContainer,
+} from '../../components/AppHeader/styles';
+import { currencyBRLString } from '../../services/Currency';
+import { BooksData } from '../../store/ducks/BooksData/types';
+import {
+  ActionContent,
+  BodyContainer,
+  BottomHeadContent,
+  BuyButton,
+  DisabledButton,
+  HeadContainer,
+  HeadContent,
+  ImageShaddow,
+  ImageWraper,
+  LeftBookHead,
+  LoveButton,
+  MainContainer,
+  PagesInfo,
+  PriceText,
+  RightBookHead,
+  TextAuthors,
+  TextButton,
+  TextDescription,
+  TextPages,
+  TextTitle,
+  TitleContent,
+} from './styles';
+
+type RootStackParamList = {
+  Books: undefined;
+  Details: BooksData;
+};
+
+type DetailsScreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
+
+type DetailsScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'Details'
+>;
 
 interface Props {
-  navigation: NavigationStackProp<NavigationState, NavigationParams>;
+  route: DetailsScreenRouteProp;
+  navigation: DetailsScreenNavigationProp;
 }
 
-export default function Details({ navigation }: Props) {
-  const { params } = navigation.state;
+export default function Details({ route, navigation }: Props) {
+  const { params } = route;
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => (
+        <TitleContainer>
+          <Title>Google Books</Title>
+        </TitleContainer>
+      ),
+      headerLeft: () => (
+        <HeaderContainerLeft>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Icon size={30} name='keyboard-backspace' color='#000' />
+          </TouchableOpacity>
+        </HeaderContainerLeft>
+      ),
+      headerStyle: {
+        backgroundColor: '#FFDD0D',
+        elevation: 0,
+      },
+      headerTitleAlign: 'center',
+    });
+  }, [navigation]);
 
   return (
-    <>
-      <StatusBar barStyle='light-content' />
-      {params && (
-        <SafeAreaView>
+    <SafeAreaView>
+      <AppHeader barStyle='dark-content' backgroundColor='#ffdd0d' />
+
+      <MainContainer>
+        <HeadContainer>
+          <LeftBookHead>
+            <ImageWraper>
+              <ImageShaddow
+                source={{
+                  uri: params.thumbnail,
+                }}
+              />
+            </ImageWraper>
+
+            <PagesInfo>
+              <TextPages>
+                {params.pages ? ` ${params.pages} pages` : null}
+              </TextPages>
+            </PagesInfo>
+          </LeftBookHead>
+
+          <RightBookHead>
+            <HeadContent>
+              <TitleContent>
+                <TextTitle numberOfLines={3}>
+                  {params.title}
+
+                  {params.subtitle && `: ${params.subtitle}`}
+                </TextTitle>
+                <TextAuthors>
+                  {params.authors
+                    ? params.authors.map(author =>
+                        params.authors.indexOf(author) > 0
+                          ? `, ${author}`
+                          : `by ${author}`
+                      )
+                    : 'Author Unavailable'}
+                </TextAuthors>
+              </TitleContent>
+
+              <BottomHeadContent>
+                <PriceText>{`R$ ${currencyBRLString(params.price)}`}</PriceText>
+                <StarRating
+                  disabled
+                  maxStars={5}
+                  rating={params.averageRating}
+                  emptyStar={'star'}
+                  emptyStarColor='#E4C81B'
+                  fullStarColor='#4C4309'
+                  starSize={18}
+                  containerStyle={{ padding: 5 }}
+                  starStyle={{ padding: 2 }}
+                />
+              </BottomHeadContent>
+
+              <ActionContent>
+                {params.price ? (
+                  <TouchableOpacity>
+                    <BuyButton>
+                      <TextButton>BUY</TextButton>
+                    </BuyButton>
+                  </TouchableOpacity>
+                ) : (
+                  <DisabledButton>
+                    <TextButton>NOT FOR SALE</TextButton>
+                  </DisabledButton>
+                )}
+                <TouchableOpacity>
+                  <LoveButton>
+                    <Icon
+                      size={20}
+                      name='favorite-border'
+                      color='#fff'
+                      style={{
+                        paddingTop: 3,
+                        textAlign: 'center',
+                        textAlignVertical: 'center',
+                      }}
+                    />
+                  </LoveButton>
+                </TouchableOpacity>
+              </ActionContent>
+            </HeadContent>
+          </RightBookHead>
+        </HeadContainer>
+
+        <BodyContainer>
           <ScrollView
             contentInsetAdjustmentBehavior='automatic'
-            style={styles.scrollView}
+            showsVerticalScrollIndicator={false}
           >
-            <View style={styles.body}>
-              <Text style={styles.text}>{params.title}</Text>
-            </View>
+            <TextDescription>{params.description}</TextDescription>
           </ScrollView>
-        </SafeAreaView>
-      )}
-    </>
+        </BodyContainer>
+      </MainContainer>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: '#FFDD0D',
-    height: '100%',
-  },
-  body: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: Dimensions.get('window').height,
-  },
-  text: {
-    textAlign: 'center',
-    color: '#000',
-    fontFamily: 'Roboto',
-    fontSize: 25,
-  },
-});
