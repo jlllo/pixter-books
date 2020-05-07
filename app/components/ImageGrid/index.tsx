@@ -1,18 +1,6 @@
 import React from 'react';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
-
-const styles = StyleSheet.create({
-  item: {
-    paddingHorizontal: 10,
-    paddingVertical: 15,
-    marginVertical: 0,
-    marginHorizontal: 0,
-  },
-  image: {
-    width: 100,
-    height: 130,
-  },
-});
+import { TouchableOpacity } from 'react-native';
+import { Image, Item } from './styles';
 
 interface PropsImageGrid {
   url: string;
@@ -22,14 +10,13 @@ interface PropsImageGrid {
 export default function ImageGrid({ url, handlePress }: PropsImageGrid) {
   return (
     <TouchableOpacity onPress={handlePress}>
-      <View style={styles.item}>
+      <Item>
         <Image
-          style={styles.image}
           source={{
             uri: url,
           }}
         />
-      </View>
+      </Item>
     </TouchableOpacity>
   );
 }
