@@ -1,20 +1,24 @@
+import Constants from 'expo-constants';
 import React from 'react';
 import { StatusBar } from 'react-native';
-import { Container, Divider, Title, TitleContainer } from './styles';
+import { Container, Divider } from './styles';
 
 export interface AppHeaderProps {
-  title: string;
-  barStyle: string;
+  barStyle: 'default' | 'light-content' | 'dark-content' | undefined;
+  backgroundColor: string;
 }
 
-export default function AppHeader({ title, barStyle }: AppHeaderProps) {
+export default function AppHeader({
+  barStyle,
+  backgroundColor,
+}: AppHeaderProps) {
   return (
-    <Container>
-      <StatusBar barStyle='dark-content' backgroundColor='#ffdd0d' />
-
-      <TitleContainer>
-        <Title>{title}</Title>
-      </TitleContainer>
+    <Container
+      style={{
+        height: Constants.statusBarHeight + 8,
+      }}
+    >
+      <StatusBar barStyle={barStyle} backgroundColor={backgroundColor} />
       <Divider />
     </Container>
   );
