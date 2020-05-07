@@ -3,8 +3,12 @@ import { BookStoreData } from '../store/ducks/PlacesData/types';
 export const organizeBooks = (items: []) =>
   items.map((item: any) => ({
     title: item.volumeInfo.title,
+    subtitle: item.volumeInfo.subtitle,
     description: item.volumeInfo.description,
-    authors: item.volumeInfo.authors,
+    authors:
+      typeof item.volumeInfo.authors == 'undefined'
+        ? null
+        : item.volumeInfo.authors,
     thumbnail:
       typeof item.volumeInfo.imageLinks == 'undefined'
         ? 'https://books.google.com.br/googlebooks/images/no_cover_thumb.gif'
@@ -12,10 +16,17 @@ export const organizeBooks = (items: []) =>
     pages: item.volumeInfo.pageCount,
     averageRating: item.volumeInfo.averageRating,
     isFavorite: false,
+    forSale: item.saleInfo.saleability == 'FOR_SALE',
     price:
-      typeof item.saleInfo.listPrice == 'undefined'
+      typeof item.saleInfo == 'undefined'
+        ? 0
+        : typeof item.saleInfo.listPrice == 'undefined'
         ? 0
         : item.saleInfo.listPrice.amount,
+    currency:
+      typeof item.saleinfo == 'undefined'
+        ? ''
+        : item.saleinfo.listPrice.currencyCode,
   }));
 
 export const treatPlaces = (places: []) =>
