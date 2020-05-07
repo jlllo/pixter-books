@@ -3,19 +3,33 @@ import { BooksDataState, BooksTypes } from './types';
 
 const INITIAL_STATE: BooksDataState = {
   data: [],
-  search: 'Design+Thinking',
+  totalItems: 0,
+  search: 'UX+Design',
   maxResults: 30,
-  searchIndex: 0,
+  startIndex: 0,
   loading: true,
   error: false,
 };
 
 const reducer: Reducer<BooksDataState> = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case BooksTypes.SET_LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case BooksTypes.SET_TOTAL:
+      return {
+        ...state,
+        totalItems: action.payload,
+      };
+
     case BooksTypes.SET_SEARCH:
       return {
         ...state,
         search: action.payload,
+        startIndex: 0,
+        data: [],
       };
 
     case BooksTypes.SET_FAVORITE:
@@ -33,12 +47,13 @@ const reducer: Reducer<BooksDataState> = (state = INITIAL_STATE, action) => {
     case BooksTypes.SET_INDEX:
       return {
         ...state,
-        searchIndex: action.payload,
+        startIndex: action.payload,
       };
 
     case BooksTypes.BOOKS_REQUEST:
       return {
         ...state,
+        data: [],
         loading: true,
         error: false,
       };

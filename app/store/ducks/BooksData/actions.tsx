@@ -1,6 +1,10 @@
 import { action } from 'typesafe-actions';
 import { BooksData, BooksTypes } from './types';
 
+export const setLoading = () => action(BooksTypes.SET_LOADING);
+
+export const setTotal = (total: number) => action(BooksTypes.SET_TOTAL, total);
+
 export const setSearch = (search: string) =>
   action(BooksTypes.SET_SEARCH, search);
 

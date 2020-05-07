@@ -29,10 +29,12 @@ export function* loadPlaces() {
       const places = treatPlaces(response.data.results);
       const notifications = getNotifications(places);
 
+      console.log(places, notifications);
+
       yield put(setNotifications(notifications));
       yield put(loadSuccess(places));
     } else {
-      // yield put(loadFailure());
+      yield put(loadFailure());
     }
   } catch (err) {
     yield put(loadFailure());

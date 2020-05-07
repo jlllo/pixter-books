@@ -2,29 +2,29 @@ import { call, put, select } from 'redux-saga/effects';
 import BooksAPI from '../../../services/BooksAPI';
 import { organizeBooks } from '../../../services/Utils';
 import { AppState } from '../types';
-import { loadFailure, loadSuccess } from './actions';
+import { loadFailure, loadSuccess, setTotal } from './actions';
 
 const getBooks = (state: AppState) => state.booksData;
 
 export function* loadBooks() {
   const booksData = yield select(getBooks);
-  const { data, search, maxResults, searchIndex } = booksData;
+  const { data, search, maxResults, startIndex } = booksData;
 
   try {
     const response = yield call(BooksAPI.get, '/volumes', {
       params: {
         q: search,
         maxResults,
-        startIndex: searchIndex,
+        startIndex,
         printType: 'books',
       },
     });
 
     const books = organizeBooks(response.data.items);
 
-    yield put(loadSuccess(data.concat(books)));
+    yield put(setTotal(response.data.totalItems));
+    yield put(loadSuccess([...data, ...books]));
   } catch (err) {
-    console.log(err);
     yield put(loadFailure());
   }
 }

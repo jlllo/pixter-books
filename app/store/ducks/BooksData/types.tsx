@@ -1,5 +1,6 @@
 export enum BooksTypes {
   SET_LOADING = '$_PIXTER_BOOKS/SET_LOADING',
+  SET_TOTAL = '$_PIXTER_BOOKS/SET_TOTAL',
   SET_SEARCH = '$_PIXTER_BOOKS/SET_SEARCH',
   SET_FAVORITE = '$_PIXTER_BOOKS/SET_FAVORITE',
   SET_INDEX = '$_PIXTER_BOOKS/SET_INDEX',
@@ -10,20 +11,24 @@ export enum BooksTypes {
 
 export interface BooksData {
   title: string;
+  subtitle: string;
   description: string;
   authors: string[];
   thumbnail: string;
   pages: string;
   averageRating: number;
   isFavorite: boolean;
+  forSale: boolean;
   price: number;
+  currency: string;
 }
 
 export interface BooksDataState {
   data: BooksData[];
+  totalItems: number;
   search: string;
   maxResults: number;
-  searchIndex: number;
+  startIndex: number;
   loading: boolean;
   error: boolean;
 }

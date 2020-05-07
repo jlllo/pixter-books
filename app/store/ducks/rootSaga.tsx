@@ -9,5 +9,6 @@ export default function* rootSaga() {
     takeLatest(PlacesTypes.PLACES_REQUEST, loadPlaces),
     takeLatest(BooksTypes.BOOKS_REQUEST, loadBooks),
     takeLatest(BooksTypes.SET_INDEX, loadBooks),
+    takeLatest(BooksTypes.SET_SEARCH, loadBooks),
   ]);
 }
