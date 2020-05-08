@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions';
-import { BookStoreData, PlacesTypes } from './types';
+import { BookStoreData, NotificationsData, PlacesTypes } from './types';
 
 export const loadRequest = () => action(PlacesTypes.PLACES_REQUEST);
 
@@ -8,5 +8,5 @@ export const loadSuccess = (data: BookStoreData[]) =>
 
 export const loadFailure = () => action(PlacesTypes.PLACES_FAILURE);
 
-export const setNotifications = (notifications: string[]) =>
+export const setNotifications = (notifications: NotificationsData[]) =>
   action(PlacesTypes.SET_NOTIFICATIONS, notifications);

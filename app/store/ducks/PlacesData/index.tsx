@@ -1,11 +1,12 @@
 import { Reducer } from 'redux';
+import { LOCATION_RADIUS } from '../../../services/Constants';
 import { PlacesDataState, PlacesTypes } from './types';
 
 const INITIAL_STATE: PlacesDataState = {
-  data: [],
+  places: [],
   notifications: [],
   options: {
-    radius: 40000,
+    radius: LOCATION_RADIUS,
     type: 'book_store',
   },
   loading: true,
@@ -24,7 +25,7 @@ const reducer: Reducer<PlacesDataState> = (state = INITIAL_STATE, action) => {
     case PlacesTypes.PLACES_SUCCESS:
       return {
         ...state,
-        data: action.payload,
+        places: action.payload,
         loading: false,
         error: false,
       };

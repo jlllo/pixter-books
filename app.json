@@ -17,6 +17,12 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "icon": "./assets/icon.png",
+      "googleServicesFile": "./google-services.json",
+      "package": "com.vopps.pixterbooks",
+      "versionCode": 1
     }
   }
 }

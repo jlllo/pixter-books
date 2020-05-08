@@ -1,5 +1,6 @@
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
+import { NewNotificationsProps } from '../../types';
 
 export const BodyContainer = styled.View`
   background-color: #ffdd0d;
@@ -21,14 +22,15 @@ export const NotificationsButton = styled.View`
   padding: 4px;
 `;
 
-export const NewNotifications = styled.View`
+export const NewNotifications = styled.View<NewNotificationsProps>`
   background-color: tomato;
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: 15px;
   position: absolute;
   left: 7px;
-  bottom: 18px;
+  bottom: 16px;
+  opacity: ${props => (props.show ? 1 : 0)};
 `;
 
 export const FooterLoadingContainer = styled.View`

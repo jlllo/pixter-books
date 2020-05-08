@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "759892125652",
+    "firebase_url": "https://pixterbooks.firebaseio.com",
+    "project_id": "pixterbooks",
+    "storage_bucket": "pixterbooks.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:759892125652:android:5e3c56abf5929c15035841",
+        "android_client_info": {
+          "package_name": "com.vopps.pixterbooks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "759892125652-l04kdg0732q9h4i71a070esnahd74hb0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAObArTWpnk4Y-riW4pumbRi3K53UrMLOo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "759892125652-l04kdg0732q9h4i71a070esnahd74hb0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

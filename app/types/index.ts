@@ -8,7 +8,7 @@ export type RootStackParamList = {
   Notifications: undefined;
 };
 
-// DETAILS SCREEN
+// SCREEN NAVIGATION TYPES
 
 export type DetailsScreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
 
@@ -16,8 +16,6 @@ export type DetailsScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   'Details'
 >;
-
-// NOTIFICATIONS SCREEN
 
 export type NotificationsScreenRouteProp = RouteProp<
   RootStackParamList,
@@ -29,11 +27,22 @@ export type NotificationsScreenNavigationProp = StackNavigationProp<
   'Notifications'
 >;
 
-// BOOKS SCREENS
-
 export type BooksScreenRouteProp = RouteProp<RootStackParamList, 'Books'>;
 
 export type BooksScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   'Books'
 >;
+
+// STYLED COMPONENTS TYPES
+
+export interface NewNotificationsProps {
+  show: boolean;
+}
+
+// TASKS TYPES
+
+export interface TaskProps {
+  data: any;
+  error: any;
+}

@@ -49,13 +49,13 @@ export default function Details({ route, navigation }: Props) {
     navigation.setOptions({
       headerTitle: () => (
         <TitleContainer>
-          <Title>Google Books</Title>
+          <Title>Pixter Books</Title>
         </TitleContainer>
       ),
       headerLeft: () => (
         <HeaderContainerLeft>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Icon size={30} name='keyboard-backspace' color='#000' />
+            <Icon size={25} name='keyboard-backspace' color='#000' />
           </TouchableOpacity>
         </HeaderContainerLeft>
       ),

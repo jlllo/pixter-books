@@ -1,10 +1,5 @@
 import React, { useEffect, useLayoutEffect } from 'react';
-import {
-  SafeAreaView,
-  TouchableOpacity,
-  FlatList,
-  RefreshControl,
-} from 'react-native';
+import { FlatList, SafeAreaView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import AppHeader from '../../components/AppHeader';
@@ -13,13 +8,21 @@ import {
   Title,
   TitleContainer,
 } from '../../components/AppHeader/styles';
-import { loadRequest } from '../../store/ducks/BooksData/actions';
+import { formatTime } from '../../services/Time';
+import { loadRequest as loadPlaces } from '../../store/ducks/PlacesData/actions';
 import { AppState } from '../../store/ducks/types';
 import {
   NotificationsScreenNavigationProp,
   NotificationsScreenRouteProp,
 } from '../../types';
-import { MainContainer, NotificationItem, TextNotifications } from './styles';
+import {
+  FooterNotification,
+  ListWrapper,
+  MainContainer,
+  NotificationItem,
+  TextNotifications,
+  TimeNotifications,
+} from './styles';
 
 interface Props {
   route: NotificationsScreenRouteProp;
@@ -31,7 +34,7 @@ export default function Notifications({ route, navigation }: Props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(loadRequest());
+    dispatch(loadPlaces());
   }, []);
 
   useLayoutEffect(() => {
@@ -44,7 +47,7 @@ export default function Notifications({ route, navigation }: Props) {
       headerLeft: () => (
         <HeaderContainerLeft>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Icon size={30} name='keyboard-backspace' color='#000' />
+            <Icon size={25} name='keyboard-backspace' color='#000' />
           </TouchableOpacity>
         </HeaderContainerLeft>
       ),
@@ -61,16 +64,28 @@ export default function Notifications({ route, navigation }: Props) {
       <AppHeader barStyle='dark-content' backgroundColor='#ffdd0d' />
 
       <MainContainer>
-        <FlatList
-          data={notifications}
-          renderItem={({ item }) => (
-            <NotificationItem>
-              <TextNotifications>{item}</TextNotifications>
-            </NotificationItem>
+        <ListWrapper>
+          {notifications.length > 0 ? (
+            <FlatList
+              data={notifications}
+              renderItem={({ item }) => (
+                <NotificationItem>
+                  <TextNotifications>{item.message}</TextNotifications>
+                  <FooterNotification>
+                    <TimeNotifications>{`${formatTime(
+                      item.timestamp
+                    )}`}</TimeNotifications>
+                    <Icon size={15} name='done-all' color='#4caf50' />
+                  </FooterNotification>
+                </NotificationItem>
+              )}
+              keyExtractor={item => String(notifications.indexOf(item))}
+              showsVerticalScrollIndicator
+            />
+          ) : (
+            <TextNotifications>Any book store nearby.</TextNotifications>
           )}
-          keyExtractor={item => String(notifications.indexOf(item))}
-          showsVerticalScrollIndicator
-        />
+        </ListWrapper>
       </MainContainer>
     </SafeAreaView>
   );

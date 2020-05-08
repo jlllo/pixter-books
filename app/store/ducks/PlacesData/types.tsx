@@ -17,9 +17,14 @@ export interface OptionsData {
   type: string;
 }
 
+export interface NotificationsData {
+  message: string;
+  timestamp: number;
+}
+
 export interface PlacesDataState {
-  data: BookStoreData[];
-  notifications: string[];
+  places: BookStoreData[];
+  notifications: NotificationsData[];
   options: OptionsData;
   loading: boolean;
   error: boolean;

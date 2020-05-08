@@ -10,9 +10,9 @@ const imageWidth = (Dimensions.get('window').width - 110) / 2.7;
 const imageHeight = imageWidth * 1.322;
 
 export const MainContainer = styled.View`
-  background-color: #fff;
+  background-color: #ffdd0d;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   height: ${ScreenHeight}px;
   width: ${Dimensions.get('window').width}px;
@@ -22,7 +22,7 @@ export const HeadContainer = styled.View`
   flex-direction: row;
   justify-content: center;
   width: ${Dimensions.get('window').width}px;
-  height: ${ScreenHeight * 0.35}px;
+  height: ${ScreenHeight * 0.3}px;
 `;
 
 export const LeftBookHead = styled.View`
@@ -54,6 +54,7 @@ export const BodyContainer = styled.View`
 export const PagesInfo = styled.View`
   align-items: center;
   justify-content: center;
+  height: 60px;
 `;
 
 export const ActionContent = styled.View`
@@ -111,6 +112,7 @@ export const TextPages = styled.Text`
   font-size: 14px;
   line-height: 25px;
   color: #9f8b0c;
+  text-align: center;
 `;
 
 export const PriceText = styled.Text`

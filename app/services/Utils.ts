@@ -38,7 +38,7 @@ export const treatPlaces = (places: []) =>
   }));
 
 export const getNotifications = (places: BookStoreData[]) =>
-  places.map(
-    (place: BookStoreData) =>
-      `Buy your favorite books now, ${place.name} is near here.`
-  );
+  places.map((place: BookStoreData) => ({
+    message: `Buy your favorite books now, ${place.name} is near here.`,
+    timestamp: new Date().getTime(),
+  }));

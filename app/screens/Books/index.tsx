@@ -1,3 +1,5 @@
+import * as Location from 'expo-location';
+import * as TaskManager from 'expo-task-manager';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -21,6 +23,13 @@ import {
 } from '../../components/AppHeader/styles';
 import ImageGrid from '../../components/ImageGrid';
 import {
+  LOCATION_UPDATES,
+  LOCATION_UPDATE_DISTANCE_INTERVAL,
+  LOCATION_UPDATE_TIME_INTERVAL,
+  WAIT_INTERVAL,
+} from '../../services/Constants';
+import { pushNotificationsTask } from '../../services/Tasks';
+import {
   loadRequest as loadBooks,
   setIndex,
   setLoading,
@@ -43,17 +52,26 @@ interface Props {
   navigation: BooksScreenNavigationProp;
 }
 
-const WAIT_INTERVAL = 250;
 var timer: any;
 
 export default function Books({ navigation }: Props) {
+  const { notifications } = useSelector((state: AppState) => state.placesData);
   const { loading, data, totalItems, startIndex, maxResults } = useSelector(
     (state: AppState) => state.booksData
   );
+
   const [hasSearch, setHasSearch] = useState(false);
   const [search, setSearch] = useState('');
   const [loadingMore, setLoadingMore] = useState(false);
   const dispatch = useDispatch();
+
+  const locationUpdates = async () => {
+    await Location.startLocationUpdatesAsync(LOCATION_UPDATES, {
+      accuracy: Location.Accuracy.Balanced,
+      timeInterval: LOCATION_UPDATE_TIME_INTERVAL,
+      distanceInterval: LOCATION_UPDATE_DISTANCE_INTERVAL,
+    });
+  };
 
   const searchBooks = (value: string) => dispatch(actionSearch(value));
 
@@ -85,24 +103,25 @@ export default function Books({ navigation }: Props) {
     navigation.setOptions({
       headerTitle: () => (
         <TitleContainer>
-          <Title>Google Books</Title>
+          <Title>Pixter Books</Title>
         </TitleContainer>
       ),
-      headerLeft: () => (
-        <HeaderContainerLeft>
-          <TouchableOpacity onPress={() => goToComments()}>
-            <NotificationsButton>
-              <FaIcon size={25} name='bell-o' color='#000' />
-            </NotificationsButton>
+      headerLeft: () =>
+        notifications && (
+          <HeaderContainerLeft>
+            <TouchableOpacity onPress={() => goToComments()}>
+              <NotificationsButton>
+                <FaIcon size={20} name='bell-o' color='#000' />
+              </NotificationsButton>
 
-            <NewNotifications />
-          </TouchableOpacity>
-        </HeaderContainerLeft>
-      ),
+              <NewNotifications show={notifications.length > 0} />
+            </TouchableOpacity>
+          </HeaderContainerLeft>
+        ),
       headerRight: () => (
         <HeaderContainerRight>
           <TouchableOpacity onPress={() => handleNavSearchAction()}>
-            <Icon size={30} name='search' color='#000' />
+            <Icon size={25} name='search' color='#000' />
           </TouchableOpacity>
         </HeaderContainerRight>
       ),
@@ -112,11 +131,12 @@ export default function Books({ navigation }: Props) {
       },
       headerTitleAlign: 'center',
     });
-  }, [navigation, hasSearch]);
+  }, [navigation, hasSearch, notifications]);
 
   useEffect(() => {
     dispatch(loadBooks());
     dispatch(loadPlaces());
+    locationUpdates();
   }, []);
 
   const handlePress = (params: BooksData) =>
@@ -155,7 +175,7 @@ export default function Books({ navigation }: Props) {
           <AppHeader barStyle='dark-content' backgroundColor='#ffdd0d' />
           <BodyContainer>
             <LoadingContainer>
-              <ActivityIndicator size='large' color='#000' />
+              <ActivityIndicator size={25} color='#000' />
             </LoadingContainer>
           </BodyContainer>
         </SafeAreaView>
@@ -237,3 +257,5 @@ export default function Books({ navigation }: Props) {
     </>
   );
 }
+
+TaskManager.defineTask(LOCATION_UPDATES, pushNotificationsTask);
