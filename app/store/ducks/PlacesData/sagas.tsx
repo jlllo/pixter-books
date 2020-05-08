@@ -8,8 +8,8 @@ import { loadFailure, loadSuccess, setNotifications } from './actions';
 const getPlaces = (state: AppState) => state.placesData;
 
 export function* loadPlaces() {
-  const placesData = yield select(getPlaces);
-  const { radius, type } = placesData.options;
+  const { options } = yield select(getPlaces);
+  const { radius, type } = options;
 
   try {
     const status = yield call(Location.requestPermissionsAsync);
@@ -28,8 +28,6 @@ export function* loadPlaces() {
 
       const places = treatPlaces(response.data.results);
       const notifications = getNotifications(places);
-
-      console.log(places, notifications);
 
       yield put(setNotifications(notifications));
       yield put(loadSuccess(places));

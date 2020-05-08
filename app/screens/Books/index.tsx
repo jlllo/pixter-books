@@ -1,5 +1,3 @@
-import { RouteProp } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -10,8 +8,8 @@ import {
 } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import FaIcon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import AppHeader from '../../components/AppHeader';
 import {
@@ -31,25 +29,14 @@ import {
 import { BooksData } from '../../store/ducks/BooksData/types';
 import { loadRequest as loadPlaces } from '../../store/ducks/PlacesData/actions';
 import { AppState } from '../../store/ducks/types';
+import { BooksScreenNavigationProp, BooksScreenRouteProp } from '../../types';
 import {
   BodyContainer,
-  LoadingContainer,
-  NotificationsButton,
-  NewNotifications,
   FooterLoadingContainer,
+  LoadingContainer,
+  NewNotifications,
+  NotificationsButton,
 } from './styles';
-
-type RootStackParamList = {
-  Books: undefined;
-  Details: BooksData;
-};
-
-type BooksScreenRouteProp = RouteProp<RootStackParamList, 'Books'>;
-
-type BooksScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'Books'
->;
 
 interface Props {
   route: BooksScreenRouteProp;
@@ -88,6 +75,12 @@ export default function Books({ navigation }: Props) {
     setSearch('');
   };
 
+  const goToComments = () => {
+    hasSearch && handleNavSearchAction();
+
+    navigation.navigate('Notifications');
+  };
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
@@ -97,7 +90,7 @@ export default function Books({ navigation }: Props) {
       ),
       headerLeft: () => (
         <HeaderContainerLeft>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => goToComments()}>
             <NotificationsButton>
               <FaIcon size={25} name='bell-o' color='#000' />
             </NotificationsButton>
@@ -172,6 +165,7 @@ export default function Books({ navigation }: Props) {
           <BodyContainer>
             <FlatList
               data={data}
+              onScroll={() => hasSearch && handleNavSearchAction()}
               renderItem={({ item }) => (
                 <ImageGrid
                   url={item.thumbnail}

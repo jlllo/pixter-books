@@ -9,10 +9,6 @@ const ScreenHeight =
 const imageWidth = (Dimensions.get('window').width - 110) / 2.7;
 const imageHeight = imageWidth * 1.322;
 
-interface ColorProps {
-  color: string;
-}
-
 export const MainContainer = styled.View`
   background-color: #fff;
   flex-direction: column;

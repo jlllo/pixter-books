@@ -40,5 +40,5 @@ export const treatPlaces = (places: []) =>
 export const getNotifications = (places: BookStoreData[]) =>
   places.map(
     (place: BookStoreData) =>
-      `Buy your favorite books now, ${place.name} is near here`
+      `Buy your favorite books now, ${place.name} is near here.`
   );

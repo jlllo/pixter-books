@@ -1,5 +1,3 @@
-import { RouteProp } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useLayoutEffect } from 'react';
 import { SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import StarRating from 'react-native-star-rating';
@@ -11,7 +9,10 @@ import {
   TitleContainer,
 } from '../../components/AppHeader/styles';
 import { currencyBRLString } from '../../services/Currency';
-import { BooksData } from '../../store/ducks/BooksData/types';
+import {
+  DetailsScreenNavigationProp,
+  DetailsScreenRouteProp,
+} from '../../types';
 import {
   ActionContent,
   BodyContainer,
@@ -35,18 +36,6 @@ import {
   TextTitle,
   TitleContent,
 } from './styles';
-
-type RootStackParamList = {
-  Books: undefined;
-  Details: BooksData;
-};
-
-type DetailsScreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
-
-type DetailsScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'Details'
->;
 
 interface Props {
   route: DetailsScreenRouteProp;

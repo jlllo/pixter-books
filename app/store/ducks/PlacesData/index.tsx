@@ -5,7 +5,7 @@ const INITIAL_STATE: PlacesDataState = {
   data: [],
   notifications: [],
   options: {
-    radius: 4000,
+    radius: 40000,
     type: 'book_store',
   },
   loading: true,

@@ -7,8 +7,7 @@ import { loadFailure, loadSuccess, setTotal } from './actions';
 const getBooks = (state: AppState) => state.booksData;
 
 export function* loadBooks() {
-  const booksData = yield select(getBooks);
-  const { data, search, maxResults, startIndex } = booksData;
+  const { data, search, maxResults, startIndex } = yield select(getBooks);
 
   try {
     const response = yield call(BooksAPI.get, '/volumes', {
